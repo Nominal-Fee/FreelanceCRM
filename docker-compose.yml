@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  frontend:
+    build: 
+      context: ./frontend
+    ports:
+      - "5173:5173"
+    environment:
+      # Tell Vite to use polling if hot reload isn't triggered
+      - CHOKIDAR_USEPOLLING=true
+      - BACKEND_URL=http://backend:5000
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  backend:
+    build: 
+      context: ./
+      dockerfile: ./backend/Dockerfile
+    ports:
+      - "5000:5000"
+    env_file:
+      - backend/.env
+    environment:
+      - DATABASE_URL=postgresql://freelance_user:freelance_pass@db:5432/freelanceflow
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=freelance_user
+      - POSTGRES_PASSWORD=freelance_pass
+      - POSTGRES_DB=freelanceflow
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  pgdata:
