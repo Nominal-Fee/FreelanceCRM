@@ -213,16 +213,6 @@ This starts three services:
 
 ---
 
-## 👥 Team Members
-
-| Member | Role | Contributions |
-|--------|------|---------------|
-|        |      |               |
-|        |      |               |
-|        |      |               |
-
----
-
 ## 📄 License
 
 This project is for educational purposes.
